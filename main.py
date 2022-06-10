@@ -27,7 +27,7 @@ class FileEncryptor:
         @wraps(func)
         def wrapper(*args, **kwargs):
             if not self._verified:
-                return
+                raise InvalidToken('Key is invalid!')
             return func(*args, **kwargs)
         return wrapper
 
@@ -38,6 +38,7 @@ class FileEncryptor:
                 self._verified = True
         else:
             self.create_key_file()
+            self._verified = True
 
     def create_key_file(self):
         with open(self._key_file, 'wb') as f:
