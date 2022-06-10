@@ -5,12 +5,15 @@ import base64
 import os
 
 
+BASE_DIR = os.sep.join(os.path.abspath(__file__).split(os.sep)[:-1]) + os.sep
+
+
 class FileEncryptor:
     def __init__(self, key: str) -> None:
         self._verified = False
         self._fernet = self._generate_fernet(key)
         self._verification_string = 'Verification sample'.encode()
-        self._key_file = 'key.key'
+        self._key_file = f'{BASE_DIR}key.key'
         self.create_or_verify_key_file()
         # Workaround for wrapping methods
         self.encrypt = self.verification_required(self.encrypt)
